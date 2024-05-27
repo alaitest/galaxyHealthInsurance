@@ -1,6 +1,6 @@
-import { Dimensions } from "react-native";
+import {Dimensions} from 'react-native';
 
-const { height, width } = Dimensions.get("screen");
+const {height, width} = Dimensions.get('screen');
 const spacing = 8;
 const Size = {
   spacing,
@@ -10,6 +10,17 @@ const Size = {
 };
 
 const IconType = {
-  MaterialCommunity: "material-community",
+  MaterialCommunity: 'material-community',
+  Material: 'material',
+  FontAwesome: 'font-awesome',
+  Octicon: 'octicon',
+  Ionicon: 'ionicon',
+  Foundation: 'foundation',
+  Evilicon: 'evilicon',
+  SimpleLineIcon: 'simple-line-icon',
+  Zocial: 'zocial',
+  Entypo: 'entypo',
+  Feather: 'feather',
+  Antdesign: 'antdesign',
 };
-export { Size, IconType };
+export {Size, IconType};

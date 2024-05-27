@@ -5,18 +5,20 @@ import {
   Platform,
   ImageStyle,
   Dimensions,
-} from "react-native";
-import { AppColor, Size } from ".";
-import Fonts from "./fontSelections";
+} from 'react-native';
+import {AppColor, Size} from '.';
+import Fonts from './fontSelections';
 
 interface Styles {
   flex1: ViewStyle;
   primaryContainer: ViewStyle;
   homeContainer: ViewStyle;
   headerText: TextStyle;
+  subHeaderText: TextStyle;
+  textContent: TextStyle;
 }
 
-const { width, height } = Dimensions.get("screen");
+const {width, height} = Dimensions.get('screen');
 
 const commonStyles = StyleSheet.create<Styles>({
   //new styles for project
@@ -32,7 +34,17 @@ const commonStyles = StyleSheet.create<Styles>({
   },
   headerText: {
     fontSize: 18,
-    fontFamily: Fonts.SOURCESANSBOLD,
+    fontFamily: Fonts.DMSansBold,
+  },
+  textContent: {
+    fontSize: 16,
+    fontFamily: Fonts.DMSansMedium,
+    color: AppColor.appBlack,
+  },
+  subHeaderText: {
+    fontSize: 16,
+    fontFamily: Fonts.DMSansMedium,
+    color: AppColor.appGray,
   },
 });
 

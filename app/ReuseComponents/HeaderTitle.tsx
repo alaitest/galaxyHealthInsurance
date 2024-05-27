@@ -1,9 +1,9 @@
-import { Icon } from "@rneui/base";
-import React from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { AppColor, AppFonts, IconType } from "../Utils";
-import commonStyles from "../Utils/commonStyles";
-import { useNavigation } from "@react-navigation/native";
+import {Icon} from '@rneui/base';
+import React from 'react';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {AppColor, AppFonts, IconType} from '../Utils';
+import commonStyles from '../Utils/commonStyles';
+import {useNavigation} from '@react-navigation/native';
 
 type Iprop = {
   label: string;
@@ -15,7 +15,7 @@ const HeaderTitle = (prop: Iprop) => {
     <View style={innerStyles.container}>
       <TouchableOpacity onPress={() => navigation.goBack()}>
         <Icon
-          name={"arrow-left"}
+          name={'arrow-left'}
           type={IconType.MaterialCommunity}
           color={AppColor.appWhite}
         />
@@ -28,8 +28,8 @@ const HeaderTitle = (prop: Iprop) => {
 };
 
 const innerStyles = StyleSheet.create({
-  container: { flexDirection: "row", width: "90%", alignSelf: "center" },
-  labelStyle: { color: AppColor.appWhite, marginLeft: 10 },
+  container: {flexDirection: 'row', width: '90%', alignSelf: 'center'},
+  labelStyle: {color: AppColor.appWhite, marginLeft: 10},
 });
 
 export default HeaderTitle;

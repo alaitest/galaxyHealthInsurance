@@ -1,12 +1,21 @@
-import React, { useRef, useState } from "react";
-import { View, Text, FlatList, Pressable, StyleSheet } from "react-native";
-import CoverDetails from "./CoverDetails/CoverDetails";
-import commonStyles from "../../Utils/commonStyles";
-import { AppColor, AppFonts, IconType } from "../../Utils";
-import { Chip, Icon } from "@rneui/themed";
-import { Divider } from "react-native-paper";
-import HeaderTitle from "../../ReuseComponents/HeaderTitle";
-import { ChipItemProps, headerData } from "./config";
+import React, {useRef, useState} from 'react';
+import {
+  View,
+  Text,
+  FlatList,
+  Pressable,
+  StyleSheet,
+  ScrollView,
+  KeyboardAvoidingView,
+  Platform,
+} from 'react-native';
+import CoverDetails from './CoverDetails/CoverDetails';
+import commonStyles from '../../Utils/commonStyles';
+import {AppColor, AppFonts, IconType, Size} from '../../Utils';
+import {Chip, Icon} from '@rneui/themed';
+import {Divider} from 'react-native-paper';
+import HeaderTitle from '../../ReuseComponents/HeaderTitle';
+import {ChipItemProps, headerData} from './config';
 
 const CreateProposals = () => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -27,8 +36,7 @@ const CreateProposals = () => {
           backgroundColor: isActive ? AppColor.appWhite : AppColor.onTertiary,
           borderRadius: isActive ? 50 : 300,
         },
-      ]}
-    >
+      ]}>
       {index >= activeIndex && (
         <Chip
           title={`${index + 1}`}
@@ -49,9 +57,8 @@ const CreateProposals = () => {
       <Text
         style={[
           styles.chipText,
-          { color: isActive ? AppColor.primary : AppColor.appWhite },
-        ]}
-      >
+          {color: isActive ? AppColor.primary : AppColor.appWhite},
+        ]}>
         {title}
       </Text>
     </Pressable>
@@ -72,7 +79,9 @@ const CreateProposals = () => {
     setActiveIndex(index);
   };
   return (
-    <View style={[commonStyles.homeContainer, styles.container]}>
+    <KeyboardAvoidingView
+      style={[commonStyles.homeContainer, styles.container]}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <View style={styles.header}>
         <HeaderTitle label={AppFonts.createProposal} />
         <View style={styles.chipContainer}>
@@ -83,7 +92,7 @@ const CreateProposals = () => {
             horizontal
             showsHorizontalScrollIndicator={false}
             keyExtractor={(item, index) => index.toString()}
-            renderItem={({ item, index }) => (
+            renderItem={({item, index}) => (
               <ChipItem
                 index={index}
                 title={item}
@@ -94,10 +103,17 @@ const CreateProposals = () => {
           />
         </View>
       </View>
-      <View style={styles.detailsContainer}>
+      <ScrollView
+        keyboardShouldPersistTaps="handled"
+        style={{
+          borderTopLeftRadius: 10,
+          borderTopRightRadius: 10,
+          backgroundColor: AppColor.appWhite,
+          paddingBottom: 50,
+        }}>
         <CoverDetails />
-      </View>
-    </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -106,30 +122,30 @@ const styles = StyleSheet.create({
     backgroundColor: AppColor.primary,
   },
   header: {
-    flex: 0.18,
-    justifyContent: "space-evenly",
-    alignItems: "center",
-    width: "100%",
+    height: 150,
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+    width: '100%',
   },
   chipContainer: {
-    height: "25%",
-    justifyContent: "center",
-    alignItems: "center",
-    width: "98%",
-    alignSelf: "center",
+    height: '25%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '98%',
+    alignSelf: 'center',
   },
   divider: {
     backgroundColor: AppColor.appWhite,
-    width: "95%",
-    position: "absolute",
+    width: '95%',
+    position: 'absolute',
     borderWidth: 0.5,
-    borderStyle: "dashed",
+    borderStyle: 'dashed',
   },
   chipPressable: {
-    flexDirection: "row",
-    justifyContent: "space-evenly",
-    alignItems: "center",
-    height: "100%",
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+    height: '100%',
     paddingLeft: 10,
     paddingRight: 10,
     marginLeft: 10,
@@ -147,7 +163,7 @@ const styles = StyleSheet.create({
   },
   detailsContainer: {
     flex: 0.82,
-    width: "100%",
+    width: '100%',
     backgroundColor: AppColor.appWhite,
     borderTopRightRadius: 20,
     borderTopLeftRadius: 20,

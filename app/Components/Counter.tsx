@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React, {memo} from 'react';
 import {
   View,
   Text,
@@ -7,10 +7,10 @@ import {
   Dimensions,
   ViewStyle,
   TextStyle,
-} from "react-native";
-import TouchableIcon from "./TouchableIcon";
-import { AppColor, Size } from "../Utils";
-import PrimaryInput from "./PrimaryInput";
+} from 'react-native';
+import TouchableIcon from './TouchableIcon';
+import {AppColor, Size} from '../Utils';
+import PrimaryInput from './PrimaryInput';
 // import styles from './styles';
 
 type CounterButtonProps = {
@@ -18,56 +18,68 @@ type CounterButtonProps = {
   disabled?: boolean;
   btnStyle?: ViewStyle;
   btnTexStyle?: TextStyle;
-  btnName?: String;
-  onRemove?: any;
-  onAdd?: any;
+  btnName?: string;
+  onButtonPress: (text: string) => void;
   value?: string;
   onTextChange: (text: string) => void;
 };
 
 const Counter = (props: CounterButtonProps) => {
+  const CountNo = (type: string) => {
+    var currentCount = parseInt(props.value ?? '0');
+    console.log('props.value===>', props.value);
+    console.log(type);
+    if (type == 'ADD' && currentCount > -1) {
+      currentCount = currentCount + 1;
+      console.log(currentCount);
+    }
+    if (type == 'SUB' && currentCount > 0) {
+      currentCount = currentCount - 1;
+    }
+    var newCount: string;
+    if (currentCount < 10) {
+      newCount = `0${currentCount.toString() ?? '0'}`;
+    } else {
+      newCount = `${currentCount.toString() ?? '0'}`;
+    }
+
+    props.onButtonPress(newCount);
+  };
   return (
-    <View style={{ flexDirection: "row" }}>
+    <View
+      style={{
+        flexDirection: 'row',
+        borderWidth: 1,
+        borderRadius: 5,
+      }}>
       <TouchableIcon
         btnStyle={{
-          width: Size.width / 10,
-          height: Size.width / 10,
-          backgroundColor: AppColor.appWhite,
-          justifyContent: "center",
-          borderRadius: Size.width / 50,
-          borderWidth: 1,
-          borderColor: AppColor.primary,
+          justifyContent: 'center',
+          margin: 10,
         }}
-        name={"remove"}
-        onPress={props.onRemove}
+        name={'remove'}
+        onPress={() => CountNo('SUB')}
       />
       <PrimaryInput
-        container={{ width: Size.width / 4 }}
-        inputContainer={{
-          height: Size.width / 10,
-          borderWidth: 1,
-          borderColor: AppColor.primary,
-          borderBottomWidth: 1,
-          borderBottomColor: AppColor.primary,
-        }}
-        inputStyle={{ textAlign: "center" }}
         value={props.value}
-        keyboardType={"number-pad"}
         onChange={props.onTextChange}
+        outlineStyle={{borderWidth: 0}}
+        keyboardType="numeric"
+        style={{
+          backgroundColor: 'transparent',
+          height: 40,
+          width: Size.width / 8,
+          justifyContent: 'center',
+        }}
       />
       <TouchableIcon
         btnStyle={{
-          width: Size.width / 10,
-          height: Size.width / 10,
-          backgroundColor: AppColor.appWhite,
-          justifyContent: "center",
-          borderRadius: Size.width / 50,
-          borderWidth: 1,
-          borderColor: AppColor.primary,
+          justifyContent: 'center',
+          margin: 10,
         }}
-        name={"plus"}
-        type={"material-community"}
-        onPress={props.onAdd}
+        name={'plus'}
+        type={'material-community'}
+        onPress={() => CountNo('ADD')}
       />
     </View>
   );
