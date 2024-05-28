@@ -1,32 +1,47 @@
 import React, {useState} from 'react';
-import {ScrollView, Text, View} from 'react-native';
+import {Text, View} from 'react-native';
 import commonStyles from '../../../Utils/commonStyles';
 import PrimaryDropdown from '../../../Components/PrimaryDropdown';
-import {RadioButton} from 'react-native-paper';
+import {RadioButton, Switch} from 'react-native-paper';
 import Counter from '../../../Components/Counter';
 import CustomDatePicker from '../../../Components/CustomDatePicker';
 import ButtonText from '../../../Components/ButtonText';
-import {AppColor, Size} from '../../../Utils';
 import PrimaryInput from '../../../Components/PrimaryInput';
 import moment from 'moment';
 import AppColors from '../../../Utils/Appcolor';
+import {innerStyles} from './styles';
+import {DateRangeProps} from './config';
 
 const CoverDetails = () => {
   const [dropcheck, setdropchck] = useState<string>('');
+  const [coverTenure, setCoverTenure] = useState<string>('');
+
   const [policyType, setPolicyType] = useState<string>('Fresh');
   const [coverType, setCoverType] = useState<string>('Individual');
   const [noOfAdults, setNoOfAdults] = useState<string>('00');
   const [noOfChilderen, setNoOfChilderen] = useState<string>('00');
   const [noOfParents, setNoOfParents] = useState<string>('00');
   const [dobOfEldest, setDobOfEldest] = useState<string>('');
+  const [coverStDate, setCoverStDate] = useState<string>('');
+  const [coverEndDate, setCoverEndDate] = useState<string>('');
+  const [isEmiEnabled, setIsEmiEnabled] = useState<boolean>(false);
+
   const [age, setAge] = useState<string>('');
 
   const [showdatePicker, setShowDatePicker] = useState<boolean>(false);
+  const [showCoverStPicker, setCoverStPicker] = useState<boolean>(false);
+  const [showCoverEndPicker, setCoverEndPicker] = useState<boolean>(false);
 
   const data = [
     {label: '15L', value: '1'},
     {label: '10L', value: '2'},
     {label: '5L', value: '3'},
+  ];
+
+  const tenure = [
+    {label: '1 Year', value: '1'},
+    {label: '2 Year', value: '2'},
+    {label: '3 Year', value: '3'},
   ];
 
   const CommonRadioButtton = ({
@@ -92,17 +107,47 @@ const CoverDetails = () => {
     );
   };
 
+  const DatePickerWidget = ({
+    value,
+    isDateVisible,
+    datePickFun,
+    selectedDateFun,
+    label,
+  }: DateRangeProps) => {
+    return (
+      <>
+        <ButtonText
+          btnStyle={innerStyles.primaryBt}
+          btnTexStyle={{
+            color: value === '' ? '#8B8B8D' : '#000000',
+          }}
+          labelText={value?.length == 0 ? '' : label}
+          btnName={value?.length == 0 ? label : value}
+          onSubmit={() => datePickFun(!isDateVisible)}
+          rightIcon={true}
+          iconName="date-range"
+        />
+        <CustomDatePicker
+          modal={true}
+          mode={'date'}
+          open={isDateVisible}
+          date={new Date()}
+          onCancel={() => datePickFun(!isDateVisible)}
+          onConfirm={e => {
+            selectedDateFun(moment(e).format('DD/MM/YYYY'));
+            datePickFun(!isDateVisible);
+          }}
+        />
+      </>
+    );
+  };
+
   return (
     <View>
-      <View
-        style={{
-          width: '90%',
-          alignSelf: 'center',
-          marginTop: '5%',
-        }}>
+      <View style={innerStyles.container}>
         <PrimaryDropdown
           list={data}
-          placeholder={'Select the item'}
+          placeholder={'Sum Insured'}
           value={dropcheck}
           setValue={e => setdropchck(e)}
           handleBlur={() => {}}
@@ -124,131 +169,116 @@ const CoverDetails = () => {
         onPress={e => setCoverType(e)}
         type={coverType}
       />
-      <View
-        style={{
-          width: '90%',
-          alignSelf: 'center',
-          marginTop: '5%',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}>
+      <View style={[innerStyles.container, innerStyles.counterContainer]}>
         <Text style={commonStyles.textContent}>No. of adults</Text>
         <Counter
           onTextChange={e => {
-            console.log(e);
             setNoOfAdults(e);
           }}
           value={noOfAdults}
           onButtonPress={e => {
-            console.log(e);
             setNoOfAdults(e);
           }}
         />
       </View>
-      <View
-        style={{
-          width: '90%',
-          alignSelf: 'center',
-          marginTop: '5%',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}>
+      <View style={[innerStyles.container, innerStyles.counterContainer]}>
         <Text style={commonStyles.textContent}>No. of Children</Text>
         <Counter
           onTextChange={e => {
-            console.log(e);
             setNoOfChilderen(e);
           }}
           value={noOfChilderen}
           onButtonPress={e => {
-            console.log(e);
             setNoOfChilderen(e);
           }}
         />
       </View>
-      <View
-        style={{
-          width: '90%',
-          alignSelf: 'center',
-          marginTop: '5%',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}>
+      <View style={[innerStyles.container, innerStyles.counterContainer]}>
         <Text style={commonStyles.textContent}>No. of Parents</Text>
         <Counter
           onTextChange={e => {
-            console.log(e);
             setNoOfParents(e);
           }}
           value={noOfParents}
           onButtonPress={e => {
-            console.log(e);
             setNoOfParents(e);
           }}
         />
       </View>
-      <View
-        style={{
-          width: '90%',
-          alignSelf: 'center',
-          marginTop: '5%',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}>
-        <ButtonText
-          btnStyle={{
-            width: '100%',
-            height: Size.height / 17,
-            justifyContent: 'center',
-            paddingLeft: 10,
-            backgroundColor: AppColor.appWhite,
-            borderRadius: 4,
-            borderWidth: 1,
-            borderColor: AppColor.appGray,
-            marginBottom: 15,
+      <View style={[innerStyles.container, innerStyles.counterContainer]}>
+        <DatePickerWidget
+          value={dobOfEldest}
+          isDateVisible={showdatePicker}
+          selectedDateFun={e => {
+            setShowDatePicker(false);
+            setDobOfEldest(e);
           }}
-          btnTexStyle={{
-            color: dobOfEldest === '' ? '#8B8B8D' : '#000000',
-          }}
-          labelText={dobOfEldest?.length == 0 ? '' : 'DOB of Eldest Member'}
-          btnName={
-            dobOfEldest?.length == 0 ? 'DOB of Eldest Member' : dobOfEldest
-          }
-          onSubmit={() => {
-            console.log('nknk');
-            setShowDatePicker(!showdatePicker);
-          }}
-          rightIcon={true}
-          iconName="date-range"
-        />
-        <CustomDatePicker
-          modal={true}
-          mode={'date'}
-          open={showdatePicker}
-          date={new Date()}
-          onCancel={() => setShowDatePicker(!showdatePicker)}
-          onConfirm={e => {
-            setDobOfEldest(moment(e).format('DD/MM/YYYY'));
-            setShowDatePicker(!showdatePicker);
-          }}
+          datePickFun={e => setShowDatePicker(e)}
+          label="Cover start date"
         />
       </View>
-      <View
-        style={{
-          width: '90%',
-          marginTop: '5%',
-          alignSelf: 'center',
-        }}>
+      <View style={innerStyles.secondaryContainer}>
         <PrimaryInput
           value={age}
           onChange={e => setAge(e)}
           style={{backgroundColor: AppColors.appWhite}}
           label={'Age'}
           keyboardType="numeric"
+        />
+      </View>
+      <View
+        style={[
+          innerStyles.secondaryContainer,
+          {
+            marginTop: coverTenure.length > 0 ? '3%' : '5%',
+          },
+        ]}>
+        <PrimaryDropdown
+          list={tenure}
+          placeholder={'Cover Tenure'}
+          value={coverTenure}
+          setValue={e => setCoverTenure(e)}
+          handleBlur={() => {}}
+          editable={false}
+          label={'Sum Insured'}
+        />
+      </View>
+      <View style={[innerStyles.container, innerStyles.counterContainer]}>
+        <DatePickerWidget
+          value={coverStDate}
+          isDateVisible={showCoverStPicker}
+          selectedDateFun={e => {
+            setCoverStPicker(false);
+            setCoverStDate(e);
+          }}
+          datePickFun={e => setCoverStPicker(e)}
+          label="Cover start date"
+        />
+      </View>
+      <View style={[innerStyles.container, innerStyles.counterContainer]}>
+        <DatePickerWidget
+          value={coverEndDate}
+          isDateVisible={showCoverEndPicker}
+          selectedDateFun={e => {
+            setCoverEndPicker(false);
+            setCoverEndDate(e);
+          }}
+          datePickFun={e => setCoverEndPicker(e)}
+          label="Cover End date"
+        />
+      </View>
+      <View style={[innerStyles.container]}>
+        <Text style={commonStyles.subHeaderText}>Premium breakup</Text>
+        <Text style={[commonStyles.textContent, {marginTop: '3%'}]}>
+          The final premium will be determined based on the medical conditions
+          disclosed in the proposal form and subsequent evaluate underwriter
+        </Text>
+      </View>
+      <View style={[innerStyles.container, innerStyles.counterContainer]}>
+        <Text style={commonStyles.subHeaderText}>Show me EMI Options</Text>
+        <Switch
+          value={isEmiEnabled}
+          onValueChange={() => setIsEmiEnabled(!isEmiEnabled)}
         />
       </View>
       <View style={{height: 60, width: '100%'}} />

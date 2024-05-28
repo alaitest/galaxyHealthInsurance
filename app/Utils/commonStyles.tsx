@@ -37,7 +37,7 @@ const commonStyles = StyleSheet.create<Styles>({
     fontFamily: Fonts.DMSansBold,
   },
   textContent: {
-    fontSize: 16,
+    fontSize: 14,
     fontFamily: Fonts.DMSansMedium,
     color: AppColor.appBlack,
   },

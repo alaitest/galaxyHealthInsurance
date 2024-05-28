@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import { StyleProp, Text, View, ViewStyle } from "react-native";
-import { Dropdown } from "react-native-element-dropdown";
-import { AppColor } from "../Utils";
-import { Icon } from "@rneui/themed";
+import React, {useState} from 'react';
+import {StyleProp, Text, View, ViewStyle} from 'react-native';
+import {Dropdown} from 'react-native-element-dropdown';
+import {AppColor} from '../Utils';
+import {Icon} from '@rneui/themed';
 
 type ListItem = {
   label: string;
@@ -39,10 +39,10 @@ const PrimaryDropdown = ({
   placeholderstyle,
 }: IProps) => {
   const [focused, setFocused] = useState<boolean>(false);
-  const _renderItem = (item: { label: string }) => {
+  const _renderItem = (item: {label: string}) => {
     return (
       <View>
-        <Text>{item?.label || "-"}</Text>
+        <Text>{item?.label || '-'}</Text>
       </View>
     );
   };
@@ -54,16 +54,15 @@ const PrimaryDropdown = ({
           style={[
             {
               fontSize: 14,
-              color: AppColor.primary,
+              color: focused ? AppColor.primary : AppColor.secondaryGrey,
               zIndex: 1000,
-              top: "10%",
-              left: "7%",
+              top: '10%',
+              left: '4%',
               backgroundColor: AppColor.appWhite,
-              width: "25%",
-              textAlign: "center",
+              width: '25%',
+              textAlign: 'center',
             },
-          ]}
-        >
+          ]}>
           {label}
         </Text>
       );
@@ -73,19 +72,19 @@ const PrimaryDropdown = ({
 
   return (
     <>
-      {renderLabel(label ?? "")}
+      {renderLabel(label ?? '')}
       <Dropdown
         selectedTextStyle={{
-          color: "black",
-          fontWeight: "condensedBold",
+          color: 'black',
+          fontWeight: '500',
           fontSize: 16,
         }}
+        keyboardAvoiding
         style={[
           {
             borderRadius: 8,
-            backgroundColor: "#FFFFFF",
-            borderColor:
-              focused || value.length !== 0 ? AppColor.primary : "#C7C7C7",
+            backgroundColor: '#FFFFFF',
+            borderColor: focused ? AppColor.primary : AppColor.secondaryGrey,
             borderWidth: 1,
             paddingHorizontal: 10,
             paddingVertical: 10,
@@ -95,24 +94,24 @@ const PrimaryDropdown = ({
         renderRightIcon={() => (
           <Icon
             type="material-community"
-            color={focused ? "blue" : "black"}
-            name={"chevron-down"}
+            color={focused ? 'blue' : 'black'}
+            name={'chevron-down'}
             size={20}
           />
         )}
-        itemContainerStyle={{ padding: 10, borderRadius: 8 }}
-        containerStyle={{ marginTop: 0, borderRadius: 8 }}
+        itemContainerStyle={{padding: 10, borderRadius: 8}}
+        containerStyle={{marginTop: 0, borderRadius: 8}}
         onFocus={() => setFocused(!focused)}
         onBlur={() => setFocused(false)}
         data={list}
         labelField="label"
         valueField="value"
-        onChange={(item: { value: any; label: any }) => {
+        onChange={(item: {value: any; label: any}) => {
           setValue(item.value);
           setFocused(false);
         }}
         value={value}
-        renderItem={(item) => _renderItem(item)}
+        renderItem={item => _renderItem(item)}
         placeholder={placeholder}
         activeColor={AppColor.secondary}
       />

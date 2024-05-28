@@ -43,7 +43,7 @@ const ButtonText = (props: InputButtonProps) => {
               backgroundColor: AppColor.appWhite,
               position: 'absolute',
               padding: '3%',
-              fontSize: Size.width / 40,
+              fontSize: Size.width / 36,
             }}>
             {props.labelText}
           </Text>
